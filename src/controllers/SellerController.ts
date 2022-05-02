@@ -47,7 +47,13 @@ export default class SellerControler {
     const passwordIsValid = !!seller?.password && await bcrypt.compare(password, seller.password)
     if (!passwordIsValid) throw new AuthException('The access credentials are invalid')
 
-    const token = jwt.sign({ id: seller._id, sign: seller.api_signature }, process.env.JWT_SECRET!, { expiresIn: '7d' })
+    const token = jwt.sign(
+      { id: seller._id, api_signature: seller.api_signature }, process.env.JWT_SECRET!, { expiresIn: '7d' }
+    )
     res.status(200).send({ token })
+  }
+
+  public static async catalog ({ file }: Request, res:Response) {
+    const rawCatalog = file?.buffer && file.buffer.toString('utf-8')
   }
 }

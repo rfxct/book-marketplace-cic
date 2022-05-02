@@ -1,5 +1,6 @@
 import express from 'express'
 import morgan from 'morgan'
+
 import swaggerUi from 'swagger-ui-express'
 
 import routes from './routes'

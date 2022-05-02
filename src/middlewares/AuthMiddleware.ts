@@ -9,9 +9,9 @@ export default async function auth (req: Request, _res: Response, next: NextFunc
   const [, token] = req.headers.authorization.trim().split(/\s+/)
 
   try {
-    const { id } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload
+    const { id, api_signature } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload
     req.user = await SellerModel.findById(id)
-    if (!req.user) throw new AuthException('A invalid token was provided')
+    if (!req.user || req.user.api_signature !== api_signature) throw new AuthException('A invalid token was provided')
   } catch (error: any) {
     if (error instanceof TokenExpiredError) throw new AuthException('A expired token was provided. Logiin again')
     if (error instanceof JsonWebTokenError) throw new AuthException('Provide a access token')

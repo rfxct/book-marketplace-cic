@@ -40,4 +40,16 @@ export default class AuthValidator {
       }
     }
   })
+
+  // Auth/Login
+  public static login = checkSchema({
+    email: {
+      isEmail: { errorMessage: 'Provide a valid e-mail' }
+    },
+    password: {
+      isLength: {
+        errorMessage: 'Provide a non-empty password', options: { min: 1 }
+      }
+    }
+  })
 }

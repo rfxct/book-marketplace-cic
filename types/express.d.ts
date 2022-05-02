@@ -10,6 +10,7 @@ declare namespace Express {
       phone: string
       password: string
       fiscal_document: string
+      api_signature: string
     }
   }
 }
