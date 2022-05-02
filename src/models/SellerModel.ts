@@ -5,33 +5,33 @@ import { validatePhone, validateCPF, validateCNPJ } from '@utils/validators'
 const SellerSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Provide a value for name']
+    required: [true, 'Provide a string value for `name`']
   },
   email: {
     type: String,
-    required: [true, 'Provide a value for e-mail'],
-    match: [EMAIL_PATTERN, 'The e-mail is invalid'],
+    required: [true, 'Provide a string value for `e-mail`'],
+    match: [EMAIL_PATTERN, 'The `e-mail` is invalid'],
     unique: [true, 'E-mail already in use']
   },
   phone: {
-    required: [true, 'Provide a value for phone'],
+    required: [true, 'Provide a string value for `phone`'],
     type: String,
     set: (value: string) => value.replace(/\+55|[^\d]/g, '').replace(/^0/, ''),
-    validate: [validatePhone, 'The phone isn\'t in a valid format']
+    validate: [validatePhone, 'The `phone` isn\'t in a valid format']
   },
   fiscal_document: {
-    required: [true, 'Provide a value for fiscal_document'],
+    required: [true, 'Provide a string value for `fiscal_document`'],
     type: String,
     set: (value: string) => `${documentType(value)}:${value.replace(/[^\d]/g, '')}`,
     validate: {
       validator: documentType,
-      message: 'Provide a valid CPF or CNPJ'
+      message: 'Provide a valid `CPF` or `CNPJ`'
     },
-    unique: [true, 'CPF or CNPJ already in use']
+    unique: [true, '`CPF` or `CNPJ` already in use']
   },
   password: {
     type: String,
-    required: [true, 'Provide a value for password']
+    required: [true, 'Provide a string value for `password`']
   },
   api_signature: {
     type: Schema.Types.ObjectId,

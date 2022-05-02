@@ -16,9 +16,17 @@ export default class SellerControler {
     // TODO: remover essa linha de debug
     await SellerModel.deleteOne({ email })
 
-    const alreadyUsed = await SellerModel.findOne({ $or: [{ email }] })
-    if (alreadyUsed) {
+    const emailAlreadyUsed = await SellerModel.findOne({ email })
+    if (emailAlreadyUsed) {
       throw new GenericException('The e-mail provided already in use', 409, 'EMAIL_ALREADY_IN_USE')
+    }
+
+    const fiscalDocument = data.fiscal_document.replace(/[^\d]/g, '')
+    const fiscalDocumentAlreadyUsed = await SellerModel.findOne({
+      fiscal_document: { $regex: `(cpf|cnpj)\\:${fiscalDocument}`, $options: 'i' }
+    })
+    if (fiscalDocumentAlreadyUsed) {
+      throw new GenericException('The fiscal_document provided already in use', 409, 'FISCAL-DOCUMENT_ALREADY_IN_USE')
     }
 
     const password = await bcrypt.hash(rawPassword, Number(process.env.BCRYPT_SALT_ROUNDS) || 5)
