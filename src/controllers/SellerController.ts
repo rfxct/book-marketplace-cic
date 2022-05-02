@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
@@ -11,7 +12,10 @@ import SellerModel from '@models/SellerModel'
 export default class SellerControler {
   public static async create (req: Request, res: Response) {
     const { email, password: rawPassword, ...data } = req.body
+
+    // TODO: remover essa linha de debug
     await SellerModel.deleteOne({ email })
+
     const alreadyUsed = await SellerModel.findOne({ $or: [{ email }] })
     if (alreadyUsed) {
       throw new GenericException('The e-mail provided already in use', 409, 'EMAIL_ALREADY_IN_USE')
