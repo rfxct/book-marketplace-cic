@@ -19,8 +19,8 @@ const SellerSchema = new Schema({
     set: (value: string) => value.replace(/\+55|[^\d]/g, '').replace(/^0/, ''),
     validate: [validatePhone, 'The `phone` isn\'t in a valid format']
   },
-  fiscal_document: {
-    required: [true, 'Provide a string value for `fiscal_document`'],
+  fiscalDocument: {
+    required: [true, 'Provide a string value for `fiscalDocument`'],
     type: String,
     set: (value: string) => `${documentType(value)}:${value.replace(/[^\d]/g, '')}`,
     validate: {
@@ -32,12 +32,8 @@ const SellerSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Provide a string value for `password`']
-  },
-  api_signature: {
-    type: Schema.Types.ObjectId,
-    default: new mongo.ObjectId()
   }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } })
+}, { timestamps: true })
 
 function documentType (value: string) {
   return validateCPF(value) ? 'cpf' : validateCNPJ(value) ? 'cnpj' : false

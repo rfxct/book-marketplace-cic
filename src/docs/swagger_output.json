@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/api/seller": {
+    "/api/sellers": {
       "post": {
         "description": "",
         "parameters": [
@@ -41,7 +41,7 @@
         }
       }
     },
-    "/api/seller/login": {
+    "/api/sellers/login": {
       "post": {
         "description": "",
         "parameters": [
@@ -68,15 +68,11 @@
         }
       }
     },
-    "/api/seller/catalog": {
+    "/api/sellers/catalog": {
       "post": {
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       }
     }
   }

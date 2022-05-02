@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose'
 
 const BookSchema = new Schema({
-  seller_id: {
+  sellerId: {
     type: Schema.Types.ObjectId,
-    required: [true, 'Provide a seller id for `seller_id`']
+    required: [true, 'Provide a seller id for `sellerId`']
   },
   title: {
     type: String,
@@ -17,33 +17,29 @@ const BookSchema = new Schema({
       message: 'The `authors` array must be string-only'
     }
   },
-  pages: {
+  numPages: {
     type: Number,
     set: Math.ceil,
-    required: [true, 'Provide a integer value to `pages`'],
+    required: [true, 'Provide a integer value to `numPages`'],
     validate: {
       validator: checkNumber,
-      message: 'The value for `pages` must be greater than 0'
+      message: 'The value for `numPages` must be greater than 0'
     }
   },
-  publication_date: {
-    type: Number,
-    required: [true, 'Provide a integer value to `publication_date`'],
-    validate: {
-      validator: checkNumber,
-      message: 'The value for `publication_date` must be greater than 0'
-    }
+  publicationDate: {
+    type: String,
+    required: [true, 'Provide a string value to `publicationDate`']
   },
   publisher: {
     type: String,
     required: [true, 'Provide a string value for `publisher`']
   },
   price: {
-    type: String,
+    type: Number,
     required: [true, 'Provide a decimal value for `price`'],
     validate: {
       validator: (value: number) => value >= 0,
-      message: 'The value for `publication_date` must be greater than or equal 0'
+      message: 'The value for `price` must be greater than or equal 0'
     }
   }
 })

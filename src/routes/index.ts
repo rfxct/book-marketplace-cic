@@ -11,16 +11,13 @@ import SellerValidator from '@validators/SellerValidator'
 
 const router = Router()
 const upload = multer({
-  limits: { fileSize: 50 * 1e+6 /* 50MB */ }
+  limits: { fileSize: 10 * 1e+6 /* 10MB */ }
 })
 
 // Seller
-router.post('/api/sellers', Validator.create, ValidateRequestMiddleware, Controller.create)
+router.post('/api/sellers', SellerValidator.create, ValidateRequestMiddleware, SellerController.create)
 router.post('/api/sellers/login', SellerValidator.login, ValidateRequestMiddleware, SellerController.login)
 
-router.post('/api/sellers/catalog', AuthMiddleware, upload.single('catalog'), (req, res) => {
-  console.log(req.file?.buffer.toString('utf-8'))
-  res.send('ok')
-})
+router.post('/api/sellers/catalog', AuthMiddleware, upload.single('catalog'), SellerController.catalog)
 
 export default router

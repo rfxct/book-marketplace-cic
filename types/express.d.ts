@@ -3,14 +3,13 @@
 
 declare namespace Express {
   export interface Request {
-    user: {
+    seller: {
       _id: string
       name: string
       email: string
       phone: string
       password: string
-      fiscal_document: string
-      api_signature: string
+      fiscalDocument: string
     }
   }
 }

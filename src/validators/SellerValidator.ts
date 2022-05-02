@@ -33,7 +33,7 @@ export default class AuthValidator {
         options: (value) => /([a-z].*[0-9]|[0-9].*[a-z])/i.test(value)
       }
     },
-    fiscal_document: {
+    fiscalDocument: {
       custom: {
         errorMessage: 'Provide a valid CPF (XXX.XXX.XXX-YY) or CNPJ(XX.XXX.XXX/0001-YY)',
         options: (value) => validateCPF(value) || validateCNPJ(value)
