@@ -1,0 +1,7 @@
+import { checkSchema } from 'express-validator'
+
+export default class $$name$$Validator {
+  public static index = checkSchema({
+    // content
+  })
+}

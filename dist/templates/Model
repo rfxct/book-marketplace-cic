@@ -1,0 +1,11 @@
+import { Schema, model } from 'mongoose'
+
+const $$name$$Schema = new Schema({
+  propName: {
+    type: String,
+    required: [true, 'error reason']
+  }
+  // ...
+})
+
+export default model('$$name$$', $$name$$Schema)
