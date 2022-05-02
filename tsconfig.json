@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "baseUrl": ".",
+    "lib": ["ES2019"],
+    "types": ["node", "jest"],
+    "typeRoots": ["types", "node_modules/@types"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@models/*": ["./src/models/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@exceptions/*": ["./src/exceptions/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@validators/*": ["./src/validators/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  },
+  "files": [
+    "types/express.d.ts"
+  ],
+  "include": ["src/**/*"]
+}
