@@ -3,14 +3,11 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
-import * as csv from '@utils/csv'
 
 import AuthException from '@exceptions/AuthException'
 import GenericException from '@exceptions/GenericException'
 
 import SellerModel from '@models/SellerModel'
-import IBookCsv from '@interfaces/IBookCsv'
-import BookModel from '@models/BookModel'
 
 export default class SellerControler {
   public static async create(req: Request, res: Response) {
@@ -48,30 +45,6 @@ export default class SellerControler {
     if (!passwordIsValid) throw new AuthException('The access credentials are invalid')
 
     const token = jwt.sign({ id: seller._id }, process.env.JWT_SECRET!, { expiresIn: '7d' })
-    res.status(200).send({ token })
-  }
-
-  public static async catalog({ file, seller }: Request, res: Response) {
-    const rawCatalog = file?.buffer && file.buffer.toString('utf-8')
-    if (!csv.isValid(rawCatalog)) throw new GenericException('The csv provided is invalid')
-
-    const catalog: IBookCsv[] = csv.parse(rawCatalog)
-
-    const receivedKeys = Object.keys(catalog[0])
-    const allowedKeys = ['title', 'authors', 'numPages', 'publicationDate', 'publisher', 'price']
-
-    if (receivedKeys.length !== allowedKeys.length || receivedKeys.some(k => !allowedKeys.includes(k))) {
-      throw new GenericException(`This route only accept csv with the following keys: ${allowedKeys}`)
-    }
-
-    const toInsert = catalog.map(({ numPages, price, ...book }) => ({
-      sellerId: seller._id,
-      numPages: parseInt(numPages),
-      price: parseFloat(price), 
-      ...book
-    }))
-    
-    const addedBooks = await BookModel.insertMany(toInsert)
-    res.send(addedBooks)
+    res.status(200).json({ token })
   }
 }

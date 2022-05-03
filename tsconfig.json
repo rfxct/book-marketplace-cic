@@ -3,7 +3,7 @@
     "target": "ES2016",
     "baseUrl": ".",
     "lib": ["ES2019"],
-    "types": ["node", "jest"],
+    "types": ["node"],
     "typeRoots": ["types", "node_modules/@types"],
     "module": "commonjs",
     "esModuleInterop": true,

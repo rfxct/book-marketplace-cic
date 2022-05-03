@@ -68,10 +68,72 @@
         }
       }
     },
-    "/api/sellers/catalog": {
+    "/api/books": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "publisher",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "priceOrder",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "publicationOrder",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "description": "",
         "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/books/catalog": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/books/download/{sellerId}/{bookId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "sellerId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {}
       }
     }

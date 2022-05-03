@@ -1,8 +1,11 @@
 import { Schema, model } from 'mongoose'
+import removeDiacritics from '@utils/removeDiacritics'
+
 
 const BookSchema = new Schema({
-  sellerId: {
+  seller: {
     type: Schema.Types.ObjectId,
+    ref: 'Seller',
     required: [true, 'Provide a seller id for `sellerId`']
   },
   title: {
@@ -10,12 +13,8 @@ const BookSchema = new Schema({
     required: [true, 'Provide a string value for `title`']
   },
   authors: {
-    type: Array,
-    required: [true, 'Provide a valid string-array value for `authors'],
-    validate: {
-      validator: (value: unknown) => Array.isArray(value) && value.every(item => typeof item === 'string'),
-      message: 'The `authors` array must be string-only'
-    }
+    type: String,
+    required: [true, 'Provide a valid string value for `authors']
   },
   numPages: {
     type: Number,
@@ -27,12 +26,19 @@ const BookSchema = new Schema({
     }
   },
   publicationDate: {
-    type: String,
-    required: [true, 'Provide a string value to `publicationDate`']
+    type: Date,
+    required: [true, 'Provide a date value to `publicationDate`']
   },
   publisher: {
     type: String,
     required: [true, 'Provide a string value for `publisher`']
+  },
+  searchablePublisher: {
+    type: String,
+    set: removeDiacritics,
+    default: function () {
+      return removeDiacritics((this as any).publisher)
+    }
   },
   price: {
     type: Number,
@@ -41,11 +47,19 @@ const BookSchema = new Schema({
       validator: (value: number) => value >= 0,
       message: 'The value for `price` must be greater than or equal 0'
     }
+  },
+  fileName: {
+    type: String,
+    default: null
   }
 })
 
-function checkNumber (value: number) {
+BookSchema.pre('save', function (next) {
+  this.searchablePublisher = removeDiacritics(this.publisher)
+  next()
+})
+
+function checkNumber(value: number) {
   return value > 0
 }
-
 export default model('Book', BookSchema)
