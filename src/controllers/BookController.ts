@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'fs/promises'
+import path from 'path'
 
 import BookModel from '@models/BookModel'
 import GenericException from '@exceptions/GenericException'
@@ -93,10 +94,10 @@ export default class BookController {
     const result = await pdf.parse(rawBook) as IPDFReaderResult
     if (result.error) throw new GenericException(result?.message, result?.code)
 
-    const fileName = uuidv4() + '.pdf'
-    const pathName = `static/books/${seller._id}`
+    const fileName = `${uuidv4()}.pdf`
+    const pathName = path.join('static', 'books', String(seller._id))
     await fs.mkdir(pathName, { recursive: true })
-    await fs.writeFile(`${pathName}/${fileName}`, rawBook)
+    await fs.writeFile(path.join(pathName, fileName), rawBook)
 
     const query = {
       $and: [{ seller: seller._id }],
@@ -116,7 +117,16 @@ export default class BookController {
   }
 
   // Download livro
-  public static async downloadLivro(req, res) {
-    // -
+  public static async downloadBook(req: Request, res: Response) {
+    const { bookId } = req.params
+
+    const book = await BookModel.findOne({ _id: bookId })
+    if (!book) throw new GenericException('Invalid bookId was provided', 404, 'NOT_FOUND')
+    if (!book.fileName) throw new GenericException('Requested book isn\'t available for download', 404, 'NOT_FOUND')
+
+    const fullPath = path.resolve('static', 'books', String(book.seller), book.fileName)
+    const downloadFileName =book.title.replace(/\s/g, '_').replace(/[^\w]/, '')
+    
+    res.status(200).download(fullPath, `${downloadFileName}.pdf`)
   }
 }

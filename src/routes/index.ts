@@ -26,6 +26,6 @@ router.get('/api/books', AuthMiddleware, BookController.index)
 router.post('/api/books', AuthMiddleware, CheckFileHeaderMiddleware, upload.single('book'), BookController.uploadBook)
 router.post('/api/books/catalog', AuthMiddleware, CheckFileHeaderMiddleware, upload.single('catalog'), BookController.uploadCatalog)
 
-router.get('/api/books/download/:sellerId/:bookId', BookController.downloadBook)
+router.get('/api/books/download/:bookId', BookController.downloadBook)
 
 export default router

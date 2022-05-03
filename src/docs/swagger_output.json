@@ -117,16 +117,10 @@
         "responses": {}
       }
     },
-    "/api/books/download/{sellerId}/{bookId}": {
+    "/api/books/download/{bookId}": {
       "get": {
         "description": "",
         "parameters": [
-          {
-            "name": "sellerId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "bookId",
             "in": "path",
@@ -134,7 +128,11 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }
