@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "teste-backend-tindin-fase2",
+    "title": "books-marketplace",
     "version": "1.0.0",
     "description": ""
   },
